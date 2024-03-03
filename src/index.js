@@ -50,11 +50,9 @@ const pizzaData = [
 function App() {
     return (
         <div>
-            <h1>Hello React!</h1>
-            {/* reuse component */}
-            <Pizza />
-            <Pizza />
-            <Pizza />
+            <Header />
+            <Menu />
+            <Footer />
         </div>
     );
 }
@@ -69,6 +67,26 @@ function Pizza() {
         </div>
              
     );
+}
+
+function Header() {
+    return <h1>Fast React Pizza Co. </h1>
+}
+
+function Menu() {
+    return (
+        <div>
+            <h2>Our Menu</h2>
+            <Pizza />
+            <Pizza />
+            <Pizza />
+        </div>
+    );
+}
+
+function Footer() {
+    return <footer>{new Date().toLocaleTimeString()} We're currently open!</footer>
+    // return React.createElement("footer", null, "We're currently open!");
 }
 
 //React v18
