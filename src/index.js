@@ -59,22 +59,32 @@ function App() {
 }
 
 function Menu() {
+   const pizzas = pizzaData;
+   // const pizzas = [];
+   const numPizzas = pizzas.length;
+
     return (
         <main className="menu">
             <h2>Our Menu</h2>
-
-            <ul className="pizzas">
+            {numPizzas > 0 && (
+                <ul className="pizzas">
+                  {pizzaData.map(pizza => (
+                     <Pizza pizzaObj={pizza} key={pizza.name} />
+                  ))}
+               </ul>
+            )}
+           
+            {/* <ul className="pizzas">
                {pizzaData.map(pizza => (
-                  // <Pizza 
-                  //    name={pizza.name} 
-                  //    photoName={pizza.photoName} 
-                  //    ingredients={pizza.ingredients} 
-                  //    price={pizza.price}
-                  //    soldOut={pizza.soldOut}
-                  // />
-                  <Pizza pizzaObj={pizza} key={pizza.name} />
+                  <Pizza 
+                     name={pizza.name} 
+                     photoName={pizza.photoName} 
+                     ingredients={pizza.ingredients} 
+                     price={pizza.price}
+                     soldOut={pizza.soldOut}
+                  />
                ))}
-            </ul>
+            </ul> */}
             {/* <Pizza 
                 name="Pizza Spinaci" 
                 ingredient="Tomato, mozarella, spinach, and ricotta cheese" 
@@ -128,7 +138,14 @@ function Footer() {
 
     return (
         <footer className="footer">
-            {new Date().toLocaleTimeString()} We're currently open!
+            {isOpen && (
+               <div className="order">
+                  <p>
+                     We're open until {closeHour}:00. Come visit us or order online.
+                  </p>
+                  <button className="btn">Order</button>
+               </div>
+            )}
         </footer>
         // return React.createElement("footer", null, "We're currently open!");
     );
