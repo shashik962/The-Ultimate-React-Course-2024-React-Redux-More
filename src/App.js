@@ -53,21 +53,38 @@ const average = (arr) =>
 const key = 'fe118ea3';
 
 export default function App() {
+  const [query, setQuery] = useState("horror");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = 'interstellar';
+  const trmpQuery = 'interstellar';
   // useEffect(function() {
   //   fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
   //   .then((res) => res.json())
   //   .then((data) => setMovies(data.Search)); 
   // }, []);
 
+ /*  useEffect(function () {
+    console.log("After initial render");
+  },[]);
+
+  useEffect(function () {
+    console.log("After every render");
+  });
+
+  useEffect(function () {
+    console.log("D");
+  }, [query]);
+
+  console.log("During Render"); */
+
+
   useEffect(function() {
       async function fetchMovies() {
         try {
           setIsLoading(true);
+          setError("");
           const res =  await fetch(`http://www.omdbapi.com/?apikey=${key}&s=${query}`);
           if (!res.ok)
               throw new Error("Something went wrong with fetching movies");
@@ -83,17 +100,22 @@ export default function App() {
             setError(err.message);
         } finally {
           setIsLoading(false);
-        }
-        
+        } 
       }
+      if(query.length < 3) {
+        setMovies([]);
+        setError("");
+        return;
+      }
+
       fetchMovies();
-  }, [])  
+  }, [query])  
 
 
   return (
     <>
       <NavBar> 
-          <Search />
+          <Search query={query} setQuery={setQuery}/>
           <NumResults movies={movies} />
       </NavBar>
       <Main >
@@ -142,8 +164,8 @@ function Logo() {
     );
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
+function Search({ query, setQuery }) {
+ 
 
    return (
     <input
